@@ -1,5 +1,8 @@
 package com.example.sensorapiservice.models;
 
+import lombok.Data;
+import lombok.experimental.Accessors;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
@@ -9,6 +12,8 @@ import java.util.List;
 import java.util.Set;
 
 @Entity
+@Data
+@Accessors(chain = true)
 @Table(name = "sensor")
 public class Sensor implements Serializable {
     @Id
@@ -30,55 +35,6 @@ public class Sensor implements Serializable {
 
     @Column(name = "created_at")
     private LocalDateTime createdAt;
-
-    public Sensor() {}
-
-    public Sensor(String name, String version, Set<Measurement> measurements, LocalDateTime createdAt) {
-        this.name = name;
-        this.version = version;
-        this.measurements = measurements;
-        this.createdAt = createdAt;
-    }
-
-    public Set<Measurement> getMeasurements() {
-        return measurements;
-    }
-
-    public void setMeasurements(Set<Measurement> measurements) {
-        this.measurements = measurements;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getVersion() {
-        return version;
-    }
-
-    public void setVersion(String version) {
-        this.version = version;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
 
     @Override
     public String toString() {

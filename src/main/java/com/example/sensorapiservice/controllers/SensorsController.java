@@ -6,6 +6,7 @@ import com.example.sensorapiservice.services.SensorService;
 import com.example.sensorapiservice.utils.exceptions.SensorCreatedException;
 import com.example.sensorapiservice.utils.responses.SensorErrorResponse;
 import com.example.sensorapiservice.utils.SensorValidator;
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/sensors")
 public class SensorsController {
@@ -24,12 +26,6 @@ public class SensorsController {
     private final SensorService sensorService;
     private final ModelMapper modelMapper;
 
-    @Autowired
-    public SensorsController(SensorValidator sensorValidator, SensorService sensorService, ModelMapper modelMapper) {
-        this.sensorValidator = sensorValidator;
-        this.sensorService = sensorService;
-        this.modelMapper = modelMapper;
-    }
 
     @GetMapping()
     public List<SensorDTO> getSensors() {
@@ -56,7 +52,7 @@ public class SensorsController {
             throw new SensorCreatedException(msgErrors.toString());
         }
 
-        sensorService.save(convertToSensor(sensorDTO));
+        sensorService.save(sensorDTO);
 
         return ResponseEntity.ok(HttpStatus.OK);
     }

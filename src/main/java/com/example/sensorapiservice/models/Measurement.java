@@ -1,14 +1,16 @@
 package com.example.sensorapiservice.models;
 
-import com.sun.istack.NotNull;
+
+import com.fasterxml.jackson.databind.jsonschema.JsonSerializableSchema;
+import lombok.Data;
+import lombok.experimental.Accessors;
 
 import javax.persistence.*;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.*;
 
 @Entity
+@Data
+@Accessors(chain = true)
 @Table(name = "measurement")
 public class Measurement {
     @Id
@@ -24,19 +26,12 @@ public class Measurement {
 
     @Column(name = "raining")
     @NotNull
-    private boolean raining;
+    private Boolean raining;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "sensor_id", referencedColumnName = "name")
     private Sensor sensor;
 
-    public Measurement() {}
-
-    public Measurement(Double value, boolean raining, Sensor sensor) {
-        this.value = value;
-        this.raining = raining;
-        this.sensor = sensor;
-    }
 
     @Override
     public String toString() {
@@ -46,37 +41,5 @@ public class Measurement {
                 ", raining=" + raining +
                 ", sensor=" + sensor +
                 '}';
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Double getValue() {
-        return value;
-    }
-
-    public void setValue(Double value) {
-        this.value = value;
-    }
-
-    public boolean isRaining() {
-        return raining;
-    }
-
-    public void setRaining(boolean raining) {
-        this.raining = raining;
-    }
-
-    public Sensor getSensor() {
-        return sensor;
-    }
-
-    public void setSensor(Sensor sensor) {
-        this.sensor = sensor;
     }
 }

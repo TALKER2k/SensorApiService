@@ -7,7 +7,7 @@ import com.example.sensorapiservice.services.SensorService;
 import com.example.sensorapiservice.utils.exceptions.MeasurementCreatedException;
 import com.example.sensorapiservice.utils.exceptions.MeasurementNotFoundException;
 import com.example.sensorapiservice.utils.responses.MeasurementErrorResponse;
-import com.example.sensorapiservice.utils.responses.SensorErrorResponse;
+import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,19 +19,13 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/measurements")
 public class MeasurementController {
     private final ModelMapper modelMapper;
     private final MeasurementService measurementService;
     private  final SensorService sensorService;
-
-    @Autowired
-    public MeasurementController(ModelMapper modelMapper, MeasurementService measurementService, SensorService sensorService) {
-        this.modelMapper = modelMapper;
-        this.measurementService = measurementService;
-        this.sensorService = sensorService;
-    }
 
     @PostMapping("/add")
     public ResponseEntity<HttpStatus> addNewMeasurement(@RequestBody @Valid MeasurementDTO measurementDTO,
@@ -105,7 +99,7 @@ public class MeasurementController {
     @GetMapping("/rainyDaysCount")
     public Long rainyDaysCount() {
         return measurementService.findAll().stream()
-                .filter(Measurement::isRaining)
+                .filter(Measurement::getRaining)
                 .count();
     }
 }
